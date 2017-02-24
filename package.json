@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "simple-ftp",
+  "version": "1.0.0",
+  "description": "Servidor FTP simple",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "ftpd": "^0.2.15",
+    "yargs": "^6.6.0"
+  }
+}

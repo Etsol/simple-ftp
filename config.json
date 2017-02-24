@@ -1,0 +1,12 @@
+{
+	"root": "./root",
+	"host": "",
+	"port": "",
+
+	"users": [
+		{
+			"user": "root",
+			"password": "root"
+		}
+	]
+}
