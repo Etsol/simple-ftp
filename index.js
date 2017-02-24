@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var ftpd = require('ftpd');
 var fs = require('fs');
 var path = require('path');
@@ -15,7 +17,7 @@ var options = {
 
 program
 .version(require('./package.json').version)
-.usage('\b\b\b\bnode . [OPTIONS]')
+.usage('\r  Uso: ftpserver [OPTIONS]')
 .description('Servidor FTP simple con permisos de lectura y escritura.\n' +
 '  Configuración y usuarios en config.json')
 .option('--host', 'Host del FTP (Default: "' + options.host + '")')
@@ -27,7 +29,10 @@ program.parse(process.argv);
 
 server = new ftpd.FtpServer(options.host, {
 	getInitialCwd: () => './',
-	getRoot: () => argv.root || config.root || process.cwd(),
+	getRoot: () => {
+		var folder = argv.root || config.root || '.';
+		return /^\s*[a-zA-Z]\:.*$/.test(folder) ? folder : path.join(process.cwd(), folder);
+	},
 	pasvPortRangeStart: 1025,
 	pasvPortRangeEnd: 1050,
 	tlsOptions: options.tls,
@@ -72,3 +77,4 @@ server.on('client:connected', function (connection) {
 server.debugging = 4;
 server.listen(options.port);
 console.log(chalk.green('FTP corriendo en -> ftp://' + options.host + (options.port == 21 ? '' : options.port)));
+console.log(chalk.yellow('ROOT:'), server.getRoot());

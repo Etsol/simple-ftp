@@ -14,5 +14,8 @@
     "commander": "^2.9.0",
     "ftpd": "^0.2.15",
     "yargs": "^6.6.0"
+  },
+  "bin": {
+    "ftpserver": "./index.js"
   }
 }
