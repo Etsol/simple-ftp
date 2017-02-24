@@ -15,6 +15,11 @@ var options = {
 	tld: null
 };
 
+var getRoot = () => {
+	var folder = argv.root || config.root || '.';
+	return /^\s*[a-zA-Z]\:.*$/.test(folder) ? folder : path.join(process.cwd(), folder);
+};
+
 program
 .version(require('./package.json').version)
 .usage('\r  Uso: ftpserver [OPTIONS]')
@@ -22,17 +27,14 @@ program
 '  Configuración y usuarios en config.json')
 .option('--host', 'Host del FTP (Default: "' + options.host + '")')
 .option('--port', 'Puerto del FTP (Default: "' + options.port + '")')
-.option('--root', 'Carpeta base (Default: "' + (config.root || process.cwd()) + '")');
+.option('--root', 'Carpeta base (Default: "' + getRoot() + '")');
 
 program.parse(process.argv);
 
 
 server = new ftpd.FtpServer(options.host, {
 	getInitialCwd: () => './',
-	getRoot: () => {
-		var folder = argv.root || config.root || '.';
-		return /^\s*[a-zA-Z]\:.*$/.test(folder) ? folder : path.join(process.cwd(), folder);
-	},
+	getRoot: getRoot,
 	pasvPortRangeStart: 1025,
 	pasvPortRangeEnd: 1050,
 	tlsOptions: options.tls,
