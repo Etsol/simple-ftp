@@ -27,10 +27,29 @@ program
 '  Configuración y usuarios en config.json')
 .option('--host', 'Host del FTP (Default: "' + options.host + '")')
 .option('--port', 'Puerto del FTP (Default: "' + options.port + '")')
-.option('--root', 'Carpeta base (Default: "' + getRoot() + '")');
+.option('--root', 'Carpeta base (Default: "' + getRoot() + '")')
+.option('--config-dir', 'Ruta del archivo de configuración')
+.option('--config-edit', 'Editar el archivo de configuración');
 
 program.parse(process.argv);
 
+if (argv['config-dir']) {
+	console.log('Archivo de configuración: (--edit-config para modificarlo)');
+	return console.log(chalk.yellow(path.join(__dirname, 'config.json')));
+}
+
+if (argv['config-edit']) {
+	var editor = require('editor');
+	return editor(path.join(__dirname, 'config.json'), (code, sig) => {
+		if (code == 0)
+			console.log(chalk.blue('Exit code: ' + code));
+		else {
+			console.error(chalk.red('Error al editar el archivo de configuración'));
+			console.error(chalk.red('Exit code: ' + code));
+			console.error(chalk.red('Signal:'), sig);
+		}
+	});
+}
 
 server = new ftpd.FtpServer(options.host, {
 	getInitialCwd: () => './',

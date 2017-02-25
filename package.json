@@ -12,6 +12,7 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "commander": "^2.9.0",
+    "editor": "^1.0.0",
     "ftpd": "^0.2.15",
     "yargs": "^6.6.0"
   },
