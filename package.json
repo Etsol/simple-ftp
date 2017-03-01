@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "simple-ftp",
   "version": "1.0.0",
   "description": "Servidor FTP simple",
