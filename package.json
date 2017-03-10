@@ -1,6 +1,6 @@
 {
   "name": "simple-ftp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Servidor FTP simple",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,9 @@
     "ftp",
     "server",
     "simple"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Etsol/simple-ftp.git"
+  }
 }
