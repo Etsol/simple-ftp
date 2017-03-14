@@ -10,9 +10,10 @@ var chalk = require('chalk');
 
 var server;
 var options = {
+	logLevel: 4, // ERROR: 0, WARN: 1, INFO: 2, DEBUG: 3, TRACE: 4
 	host: argv.host || config.host || '127.0.0.1',
 	port: argv.port || config.port || 21,
-	tld: null
+	tls: null
 };
 
 var getRoot = () => {
@@ -28,10 +29,37 @@ program
 .option('--host', 'Host del FTP (Default: "' + options.host + '")')
 .option('--port', 'Puerto del FTP (Default: "' + options.port + '")')
 .option('--root', 'Carpeta base (Default: "' + getRoot() + '")')
+.option('--log-level', 'Nivel de log (Default: ' + options.logLevel + ') [ERROR (0) | WARN (1) | INFO (2) | DEBUG (3) | TRACE (4)]')
 .option('--config-dir', 'Ruta del archivo de configuración')
 .option('--config-edit', 'Editar el archivo de configuración');
 
 program.parse(process.argv);
+
+if (argv['log-level'] || argv['log-level'] === 0) {
+	switch (String(argv['log-level']).toUpperCase()) {
+		case 'ERROR':
+		case '0':
+			options.logLevel = 0;
+			break;
+		case 'WARN':
+		case 'WARNING':
+		case '1':
+			options.logLevel = 1;
+			break;
+		case 'INFO':
+		case '2':
+			options.logLevel = 2;
+			break;
+		case 'DEBUG':
+		case '3':
+			options.logLevel = 3;
+			break;
+		case 'TRACE':
+		case '4':
+			options.logLevel = 4;
+			break;
+	}
+}
 
 if (argv['config-dir']) {
 	console.log('Archivo de configuración: (--edit-config para modificarlo)');
@@ -95,7 +123,7 @@ server.on('client:connected', function (connection) {
 	});
 });
 
-server.debugging = 4;
+server.debugging = options.logLevel;
 server.listen(options.port);
 console.log(chalk.green('FTP corriendo en -> ftp://' + options.host + (options.port == 21 ? '' : options.port)));
 console.log(chalk.yellow('ROOT:'), server.getRoot());

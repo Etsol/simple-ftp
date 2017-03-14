@@ -1,6 +1,6 @@
 {
   "name": "simple-ftp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Servidor FTP simple",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,7 @@
   },
   "keywords": [
     "ftp",
+    "ftpd",
     "server",
     "simple"
   ],
