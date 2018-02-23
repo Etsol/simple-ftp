@@ -13,7 +13,9 @@ var options = {
 	logLevel: 4, // ERROR: 0, WARN: 1, INFO: 2, DEBUG: 3, TRACE: 4
 	host: argv.host || config.host || '127.0.0.1',
 	port: argv.port || config.port || 21,
-	tls: null
+	tls: null,
+	rangeFrom: argv.rangeFrom || (config.range && config.range.from) || 1025,
+	rangeTo: argv.rangeTo || (config.range && config.range.to) || 1050
 };
 
 var getRoot = () => {
@@ -31,7 +33,9 @@ program
 .option('--root', 'Carpeta base (Default: "' + getRoot() + '")')
 .option('--log-level', 'Nivel de log (Default: ' + options.logLevel + ') [ERROR (0) | WARN (1) | INFO (2) | DEBUG (3) | TRACE (4)]')
 .option('--config-dir', 'Ruta del archivo de configuración')
-.option('--config-edit', 'Editar el archivo de configuración');
+.option('--config-edit', 'Editar el archivo de configuración')
+.option('--range-from', 'Rango de puertos para transferencia de archivos')
+.option('--range-to', 'Rango de puertos para transferencia de archivos');
 
 program.parse(process.argv);
 
@@ -82,8 +86,8 @@ if (argv['config-edit']) {
 server = new ftpd.FtpServer(options.host, {
 	getInitialCwd: () => './',
 	getRoot: getRoot,
-	pasvPortRangeStart: 1025,
-	pasvPortRangeEnd: 1050,
+	pasvPortRangeStart: options.rangeFrom,
+	pasvPortRangeEnd: options.rangeTo,
 	tlsOptions: options.tls,
 	allowUnauthorizedTls: true,
 	useWriteFile: false,

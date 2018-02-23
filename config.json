@@ -2,6 +2,10 @@
 	"root": "",
 	"host": "",
 	"port": "",
+	"range": {
+		"from": 1025,
+		"to": 1050
+	},
 
 	"users": [
 		{
